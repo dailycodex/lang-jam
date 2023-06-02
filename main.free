@@ -1,0 +1,9 @@
+# Comment 1
+-- Comment 2
+// Comment 3
+VAR INT test 1
+PRINT hello var:test
+WHILE test <= 10
+ADD test 1
+PRINT world var:test
+END
