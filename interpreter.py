@@ -22,9 +22,10 @@ class Interpreter:
                         self.vars[var_name] += step
                         self.PC = for_start_pc
                     else:
-                        self.for_stack.pop()
+                        self.for_stack.pop() 
                 else:
                     self.PC += 1
+            else: self.execute_command("RUNFUNC _PROCESS")
             try: self.window.update()
             except: pass
 
@@ -56,62 +57,68 @@ class Interpreter:
         elif cmd == "PRINT":
             text = ""
             for i in args:
-                if i.startswith("var:"):
+                if i.startswith("VAR:"):
                     i = self.vars[i.split(":")[1].replace("\n", "")]
-                i = self.check_variable(i)
+                    i = self.check_variable(i)
                 text += str(i) + " "
             print(text)
         elif cmd == "VAR":
             if args[0] in self.objects_list:
                 obj = self.check_object(args)
                 self.vars[args[1]] = obj
+            elif args[0] == "CLICK_CHECK":
+                #try:
+                x, y = self.window.get_click()
+                self.vars[args[1]] = f'{int(self.vars[args[2]].is_touched(x, y))}-FREE'
+                #except Exception as e:
+                    #print(e)
             else:
                 if args[1] == "INT":
-                    self.vars[args[1]] = self.check_variable(args[2].replace("\n", ""))+'-free'
+                    self.vars[args[1]] = self.check_variable(args[2].replace("\n", ""))+'-FREE'
                 else:
                     self.vars[args[1]] = self.check_variable(args[2].replace("\n", ""))
         elif cmd == "ADD":
             try:
                 var_name = args[0]
                 value = int(args[1])
-                if (var_name in self.vars) and (self.vars[var_name].endswith("-free")):
-                    self.vars[var_name] = self.vars[var_name].replace("-free", "")
-                    self.vars[var_name] = f'{int(self.vars[var_name]) + int(value)}-free'
+                if (var_name in self.vars) and (self.vars[var_name].endswith("-FREE")):
+                    self.vars[var_name] = self.vars[var_name].replace("-FREE", "")
+                    self.vars[var_name] = f'{int(self.vars[var_name]) + int(value)}-FREE'
                 else:
-                    self.vars[var_name] = f'{value}-free'
+                    self.vars[var_name] = f'{value}-FREE'
             except TypeError:
                 print("Cannot add two different types")
         elif cmd == "SUB":
             try:
                 var_name = args[0]
                 value = int(args[1])
-                if (var_name in self.vars) and (self.vars[var_name].endswith("-free")):
-                    self.vars[var_name] = self.vars[var_name].replace("-free", "")
-                    self.vars[var_name] = f'{int(self.vars[var_name]) - int(value)}-free'
+                if (var_name in self.vars) and (self.vars[var_name].endswith("-FREE")):
+                    self.vars[var_name] = self.vars[var_name].replace("-FREE", "")
+                    self.vars[var_name] = f'{int(self.vars[var_name]) - int(value)}-FREE'
                 else:
-                    self.vars[var_name] = f'{value}-free'
+                    self.vars[var_name] = f'{value}-FREE'
             except TypeError:
                 print("Cannot substract two different types")
         elif cmd == "MUL":
             try:
                 var_name = args[0]
                 value = int(args[1])
-                if (var_name in self.vars) and (self.vars[var_name].endswith("-free")):
-                    self.vars[var_name] = self.vars[var_name].replace("-free", "")
-                    self.vars[var_name] = f'{int(self.vars[var_name]) * int(value)}-free'
+                if (var_name in self.vars) and (self.vars[var_name].endswith("-FREE")):
+                    self.vars[var_name] = self.vars[var_name].replace("-FREE", "")
+                    self.vars[var_name] = f'{int(self.vars[var_name]) * int(value)}-FREE'
                 else:
-                    self.vars[var_name] = f'{value}-free'
+                    self.vars[var_name] = f'{value}-FREE'
             except TypeError:
                 print("Cannot multiply two different types")
         elif cmd == "DIV":
             try:
                 var_name = args[0]
                 value = int(args[1])
-                if (var_name in self.vars) and (self.vars[var_name].endswith("-free")):
-                    self.vars[var_name] = self.vars[var_name].replace("-free", "")
-                    self.vars[var_name] = f'{int(self.vars[var_name]) / int(value)}-free'
+                if (var_name in self.vars) and (self.vars[var_name].endswith("-FREE")):
+                    self.vars[var_name] = self.vars[var_name].replace("-FREE", "")
+                    self.vars[var_name] = f'{int(self.vars[var_name]) / int(value)}-FREE'
                 else:
-                    self.vars[var_name] = f'{value}-free'
+                    self.vars[var_name] = f'{value}-FREE'
             except TypeError:
                 print("Cannot divide two different types")
             except ZeroDivisionError:
@@ -135,6 +142,20 @@ class Interpreter:
             #text = ""
             #for i in args[2:]: text=text+i+" "
             #self.window.config(args[0], args[1], text)
+        elif cmd == "HIDE":
+            var_name = args[0]
+            obj = self.vars[var_name]
+            try:
+                obj.hide()
+            except:
+                print("Cannot hide object")
+        elif cmd == "SHOW":
+            var_name = args[0]
+            obj = self.vars[var_name]
+            try:
+                obj.show()
+            except:
+                print("Cannot show object")
         elif cmd == "IF":
             if self.check_if(args[0], args[1], args[2]):
                 self.if_stack.append(self.PC)
@@ -208,8 +229,8 @@ class Interpreter:
         else: return var
 
     def check_if(self, var1, conditional, var2):
-      var1 = int(self.check_variable(var1).replace("-free", ""))
-      var2 = int(self.check_variable(var2).replace("-free", ""))-1
+      var1 = int(self.check_variable(var1).replace("-FREE", ""))
+      var2 = int(self.check_variable(var2).replace("-FREE", ""))-1
       if conditional == "==": return var1==var2
       elif conditional == "<": return var1<var2
       elif conditional == ">": return var1>var2
@@ -270,24 +291,13 @@ class Interpreter:
     def check_object(self, args):
         type = args[0]
         print(args)
-        if type == "RECT":
-            print(ge.Rect(args[2], args[3], args[4], args[5], args[6]))
-            return ge.Rect(args[2], args[3], args[4], args[5], args[6])
-        elif type == "OVAL":
-            print(ge.Oval(args[2], args[3], args[4], args[5], args[6]))
-            return ge.Oval(args[2], args[3], args[4], args[5], args[6])
-        elif type == "CIRCLE":
-            print(ge.Circle(int(args[2]), int(args[3]), int(args[4]), args[5]))
-            return ge.Circle(int(args[2]), int(args[3]), int(args[4]), args[5])
-        elif type == "LINE":
-            print(ge.Line(args[2], args[3], args[4], args[5], args[6]))
-            return ge.Line(args[2], args[3], args[4], args[5], args[6])
+        if type == "RECT": return ge.Rect(int(args[2]), int(args[3]), int(args[4]), int(args[5]), args[6])
+        elif type == "OVAL": return ge.Oval(int(args[2]), int(args[3]), int(args[4]), int(args[5]), args[6])
+        elif type == "CIRCLE": return ge.Circle(int(args[2]), int(args[3]), int(args[4]), args[5])
+        elif type == "LINE": return ge.Line(int(args[2]), int(args[3]), int(args[4]), int(args[5]), args[6])
         elif type == "TEXT":
             text = ""
             for i in args[5:]: text+=i+" "
-            print(ge.Text(args[2], args[3], args[5:], args[4]))
-            return ge.Text(args[2], args[3], text, args[4])
-        elif type == "ENTRY":
-            print(ge.Entry(args[2], args[3], args[4], args[5]))
-            return ge.Entry(args[2], args[3], args[4], args[5])
+            return ge.Text(int(args[2]), int(args[3]), text, args[4])
+        elif type == "ENTRY": return ge.Entry(int(args[2]), int(args[3]), int(args[4]), args[5])
         
