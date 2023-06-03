@@ -8,41 +8,61 @@ class Interpreter:
         self.if_stack = []
         self.while_stack = []
         self.for_stack = []
-        self.objects_list = {"rect":ge.Rect, "oval":ge.Oval, "circle":ge.Circle, "line":ge.Line, "text":ge.Text, "entry":ge.Entry, "image":ge.Image}
+        self.functions = {}
+        self.objects_list = ["RECT", "OVAL", "CIRCLE", "LINE", "TEXT", "ENTRY", "IMAGE"]
 
     def run(self):
-        while self.PC < len(self.program):
-            self.execute_command()
-            if self.for_stack:
-                var_name, end, step, for_start_pc = self.for_stack[-1]
-                if self.vars[var_name] + step <= end:
-                    self.vars[var_name] += step
-                    self.PC = for_start_pc
+        self.window = ge.Window("FreeLang", 800, 600)
+        while not self.window.is_closed():
+            if self.PC < len(self.program):
+                self.execute_command()
+                if self.for_stack:
+                    var_name, end, step, for_start_pc = self.for_stack[-1]
+                    if self.vars[var_name] + step <= end:
+                        self.vars[var_name] += step
+                        self.PC = for_start_pc
+                    else:
+                        self.for_stack.pop()
                 else:
-                    self.for_stack.pop()
-            else:
-                self.PC += 1
+                    self.PC += 1
+            try: self.window.update()
+            except: pass
 
-    def execute_command(self):
-        line = self.program[self.PC]
+    def execute_command(self, line=None):
+        if line == None:
+            line = self.program[self.PC]
         raw_args = line.split(" ")
         args = []
         for i in raw_args:
             i = i.replace("\n", "")
             args.append(i)
         cmd = args[0]
-        args.pop(0)
         if (cmd.startswith("#")) or (cmd.startswith("--")) or (cmd.startswith("//")): return
-        if cmd == "PRINT":
+        args.pop(0)
+        if cmd == "FOR":
+            self.handle_for_loop(args)
+        if cmd == "LOOP":
+            self.execute_command_block()
+        elif cmd == "END":
+            if self.if_stack:
+                self.PC = self.if_stack.pop()
+            elif self.while_stack:
+                self.PC = self.while_stack.pop() - 1
+            elif self.for_stack:
+                self.PC = self.for_stack[-1][3]
+                self.update_for_loop()
+            self.PC += 1
+            print("ran a loop")
+        elif cmd == "PRINT":
             text = ""
             for i in args:
-                if "var:" in i:
+                if i.startswith("var:"):
                     i = self.vars[i.split(":")[1].replace("\n", "")]
                 i = self.check_variable(i)
                 text += str(i) + " "
             print(text)
         elif cmd == "VAR":
-            if args[1] in self.objects_list:
+            if args[0] in self.objects_list:
                 obj = self.check_object(args)
                 self.vars[args[1]] = obj
             else:
@@ -61,6 +81,58 @@ class Interpreter:
                     self.vars[var_name] = f'{value}-free'
             except TypeError:
                 print("Cannot add two different types")
+        elif cmd == "SUB":
+            try:
+                var_name = args[0]
+                value = int(args[1])
+                if (var_name in self.vars) and (self.vars[var_name].endswith("-free")):
+                    self.vars[var_name] = self.vars[var_name].replace("-free", "")
+                    self.vars[var_name] = f'{int(self.vars[var_name]) - int(value)}-free'
+                else:
+                    self.vars[var_name] = f'{value}-free'
+            except TypeError:
+                print("Cannot substract two different types")
+        elif cmd == "MUL":
+            try:
+                var_name = args[0]
+                value = int(args[1])
+                if (var_name in self.vars) and (self.vars[var_name].endswith("-free")):
+                    self.vars[var_name] = self.vars[var_name].replace("-free", "")
+                    self.vars[var_name] = f'{int(self.vars[var_name]) * int(value)}-free'
+                else:
+                    self.vars[var_name] = f'{value}-free'
+            except TypeError:
+                print("Cannot multiply two different types")
+        elif cmd == "DIV":
+            try:
+                var_name = args[0]
+                value = int(args[1])
+                if (var_name in self.vars) and (self.vars[var_name].endswith("-free")):
+                    self.vars[var_name] = self.vars[var_name].replace("-free", "")
+                    self.vars[var_name] = f'{int(self.vars[var_name]) / int(value)}-free'
+                else:
+                    self.vars[var_name] = f'{value}-free'
+            except TypeError:
+                print("Cannot divide two different types")
+            except ZeroDivisionError:
+                print("Cannot divide with 0")
+        elif cmd == "FUNCTION":
+            self.define_function(args)
+            return
+        elif cmd == "RUNFUNC":
+            self.run_function(args)
+            return
+        elif cmd == "MOVE":
+            var_name = args[0]
+            dx = args[1]
+            dy = args[2]
+            obj = self.vars[var_name]
+            try:
+                obj.move(int(dx), int(dy))
+            except:
+                print("Cannot move object")
+        elif cmd == "CONFIG":
+            self.window.config(args[0], args[1], args[2:])
         elif cmd == "IF":
             if self.check_if(args[0], args[1], args[2]):
                 self.if_stack.append(self.PC)
@@ -71,19 +143,29 @@ class Interpreter:
                 self.while_stack.append(self.PC)
             else:
                 self.skip_while_block()
-        elif cmd == "FOR":
-            self.execute_command_block()
-            self.skip_for_block()
-        elif cmd == "END":
-            if self.if_stack:
-                self.PC = self.if_stack.pop()
-            elif self.while_stack:
-                self.PC = self.while_stack.pop() - 1
-            elif self.for_stack:
-                self.PC = self.for_stack[-1][3]
-                self.update_for_loop()
         else:
             raise NotImplementedError(f"This command '{cmd}' is not valid or was not implemented yet")
+    
+    def define_function(self, args):
+        func_name = args[0]
+        self.functions[func_name] = (self.PC)
+
+    def run_function(self, args):
+        func_name = args[0]
+        if func_name in self.functions:
+            func_start_pc = self.functions[func_name]
+            saved_pc = self.PC
+            self.PC = func_start_pc
+            self.execute_command()
+            self.PC = saved_pc
+        else:
+            raise ValueError(f"Function '{func_name}' is not defined.")
+
+    def is_infinite_loop(self):
+        line = self.program[self.PC]
+        if line.strip() == "LOOP":
+            return True
+        return False
 
     def handle_for_loop(self, args):
         var_name = args[0]
@@ -138,7 +220,7 @@ class Interpreter:
         while nested_level > 0:
             self.PC += 1
             if self.PC >= len(self.program):
-                raise ValueError("Missing 'END' statement in the program")
+                raise ValueError("Missing END in program")
             line = self.program[self.PC]
             if line == "IF":
                 nested_level += 1
@@ -150,7 +232,7 @@ class Interpreter:
         while nested_level > 0:
             self.PC += 1
             if self.PC >= len(self.program):
-                raise ValueError("Missing 'END' statement in the program")
+                raise ValueError("Missing END in program")
             line = self.program[self.PC]
             if line == "WHILE":
                 nested_level += 1
@@ -166,20 +248,42 @@ class Interpreter:
             self.execute_command_block()
 
     def execute_command_block(self):
-        line = self.program[self.PC]
-        nested_level = 1
-        while nested_level > 0:
+        start_PC = self.PC + 1
+        while True:
+            try: 
+                if self.window.is_closed(): break
+            except: pass
             self.PC += 1
             if self.PC >= len(self.program):
-                raise ValueError("Missing 'END' statement in the program")
+                raise ValueError("Missing 'END' in program")
             line = self.program[self.PC]
-            if line == "FOR" or line == "WHILE":
-                nested_level += 1
-            elif line == "END":
-                nested_level -= 1
+            if line == "END":
+                self.PC = start_PC
+            if line == "BREAK":
+                self.PC += 1
+                break
+            self.execute_command()
+
     
     def check_object(self, args):
-        type = args[2]
-        if type == "rect":
-            obj = ge.Rect(args[3], args[4], args[5], args[6], args[7])
-            return obj
+        type = args[0]
+        print(args)
+        if type == "RECT":
+            print(ge.Rect(args[2], args[3], args[4], args[5], args[6]))
+            return ge.Rect(args[2], args[3], args[4], args[5], args[6])
+        elif type == "OVAL":
+            print(ge.Oval(args[2], args[3], args[4], args[5], args[6]))
+            return ge.Oval(args[2], args[3], args[4], args[5], args[6])
+        elif type == "CIRCLE":
+            print(ge.Circle(int(args[2]), int(args[3]), int(args[4]), args[5]))
+            return ge.Circle(int(args[2]), int(args[3]), int(args[4]), args[5])
+        elif type == "LINE":
+            print(ge.Line(args[2], args[3], args[4], args[5], args[6]))
+            return ge.Line(args[2], args[3], args[4], args[5], args[6])
+        elif type == "TEXT":
+            print(ge.Text(args[2], args[3], args[5:], args[4]))
+            return ge.Text(args[2], args[3], args[5:], args[4])
+        elif type == "ENTRY":
+            print(ge.Entry(args[2], args[3], args[4], args[5]))
+            return ge.Entry(args[2], args[3], args[4], args[5])
+        

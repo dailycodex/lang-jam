@@ -14,6 +14,7 @@ class Window:
         #Window variable for access
         self.window = g.GraphWin(title, w, h)
         window = self.window
+        self.root = self.window.master
 
     def get_window(self):
         return self.window
@@ -34,12 +35,17 @@ class Window:
         
     def update(self):
         self.window.flush()
+        self.root.update()
     
     def destroy(self):
         global window
         self.window.close()
         self.window = None
-        sys.exit()
+        #sys.exit()
+    
+    def config(self, w, h, title):
+        self.destroy()
+        self = Window(title, w, h)
         
 class Rect:
     def __init__(self, x1, y1, x2, y2, fill=None) -> None:
