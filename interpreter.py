@@ -131,8 +131,10 @@ class Interpreter:
                 obj.move(int(dx), int(dy))
             except:
                 print("Cannot move object")
-        elif cmd == "CONFIG":
-            self.window.config(args[0], args[1], args[2:])
+        #elif cmd == "CONFIG":
+            #text = ""
+            #for i in args[2:]: text=text+i+" "
+            #self.window.config(args[0], args[1], text)
         elif cmd == "IF":
             if self.check_if(args[0], args[1], args[2]):
                 self.if_stack.append(self.PC)
@@ -281,8 +283,10 @@ class Interpreter:
             print(ge.Line(args[2], args[3], args[4], args[5], args[6]))
             return ge.Line(args[2], args[3], args[4], args[5], args[6])
         elif type == "TEXT":
+            text = ""
+            for i in args[5:]: text+=i+" "
             print(ge.Text(args[2], args[3], args[5:], args[4]))
-            return ge.Text(args[2], args[3], args[5:], args[4])
+            return ge.Text(args[2], args[3], text, args[4])
         elif type == "ENTRY":
             print(ge.Entry(args[2], args[3], args[4], args[5]))
             return ge.Entry(args[2], args[3], args[4], args[5])
