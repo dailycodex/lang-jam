@@ -5,3 +5,5 @@ go to https://derkune.itch.io/langjam1984
 run one of the binaries in folders WindowsExport and LinuxExport
 
 Open with Godot 3.5.1 mono
+
+Click Menu button at the top right corner for language intro and sample programs.
