@@ -1,0 +1,486 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://LangRoot.cs" type="Script" id=1]
+[ext_resource path="res://PTMono-Regular.ttf" type="DynamicFontData" id=2]
+
+[sub_resource type="DynamicFont" id=1]
+font_data = ExtResource( 2 )
+
+[node name="LangRoot" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+
+[node name="TextEdit" type="TextEdit" parent="."]
+unique_name_in_owner = true
+anchor_right = 1.0
+anchor_bottom = 0.365
+wrap_enabled = true
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_top = 0.543
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 0.199982
+focus_mode = 1
+color = Color( 0.439216, 0.439216, 0.439216, 1 )
+
+[node name="TextDisplay" type="TextEdit" parent="ColorRect"]
+unique_name_in_owner = true
+anchor_top = -0.146
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 0.00400925
+margin_bottom = -3.05176e-05
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+custom_fonts/font = SubResource( 1 )
+readonly = true
+context_menu_enabled = false
+shortcut_keys_enabled = false
+virtual_keyboard_enabled = false
+middle_mouse_paste_enabled = false
+deselect_on_focus_loss_enabled = false
+drag_and_drop_selection_enabled = false
+wrap_enabled = true
+
+[node name="AppendText" type="TextEdit" parent="."]
+unique_name_in_owner = true
+anchor_top = 0.398
+anchor_right = 1.0
+anchor_bottom = 0.477
+margin_top = 0.199997
+margin_bottom = -0.200012
+wrap_enabled = true
+
+[node name="ParseButton" type="Button" parent="."]
+unique_name_in_owner = true
+visible = false
+anchor_top = 0.365
+anchor_right = 0.046
+anchor_bottom = 0.398
+margin_right = -0.104004
+margin_bottom = 0.199982
+text = "Parse"
+
+[node name="ValidityLabel" type="Label" parent="."]
+unique_name_in_owner = true
+visible = false
+anchor_left = 0.046
+anchor_top = 0.365
+anchor_right = 0.088
+anchor_bottom = 0.377
+margin_left = -0.104004
+margin_right = -0.112007
+margin_bottom = 6.8
+text = "Invalid"
+
+[node name="AssembleButton" type="Button" parent="."]
+unique_name_in_owner = true
+anchor_left = 0.088
+anchor_top = 0.365
+anchor_right = 0.162
+anchor_bottom = 0.398
+margin_left = -0.112007
+margin_right = -63.888
+margin_bottom = 0.199982
+text = "Assemble"
+
+[node name="ProblemLabel" type="Label" parent="."]
+unique_name_in_owner = true
+visible = false
+anchor_left = 0.162
+anchor_top = 0.365
+anchor_right = 0.302
+anchor_bottom = 0.388
+margin_left = 0.112
+margin_right = -103.248
+margin_bottom = 0.199997
+text = "Problem encountered!"
+
+[node name="StepButton" type="Button" parent="."]
+unique_name_in_owner = true
+anchor_left = 0.302
+anchor_top = 0.365
+anchor_right = 0.427
+anchor_bottom = 0.398
+margin_left = -0.248016
+margin_right = -0.248016
+margin_bottom = 0.199982
+text = "Step forward (1)"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+anchor_left = 0.427
+anchor_top = 0.365
+anchor_right = 0.615
+anchor_bottom = 0.408
+margin_left = -0.248016
+margin_right = 0.23999
+margin_bottom = -5.80002
+scroll_vertical_enabled = false
+
+[node name="CurrentCommandLabel" type="Label" parent="ScrollContainer"]
+unique_name_in_owner = true
+margin_right = 3000.0
+margin_bottom = 14.0
+rect_min_size = Vector2( 3000, 0 )
+hint_tooltip = "Current command"
+mouse_filter = 1
+text = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+clip_text = true
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="ExecutionFromLabel" type="Label" parent="."]
+unique_name_in_owner = true
+anchor_left = 0.615
+anchor_top = 0.365
+anchor_right = 0.646
+anchor_bottom = 0.388
+margin_left = 0.23999
+margin_right = 0.495972
+margin_bottom = 0.199997
+hint_tooltip = "Executing from"
+mouse_filter = 1
+text = "1357"
+
+[node name="ScrollContainer2" type="ScrollContainer" parent="."]
+anchor_left = 0.646
+anchor_top = 0.365
+anchor_right = 0.783
+anchor_bottom = 0.408
+margin_left = 0.495972
+margin_right = 0.207947
+margin_bottom = 0.199982
+hint_tooltip = "Last Executed Command Part"
+mouse_filter = 1
+scroll_vertical_enabled = false
+
+[node name="CurrentPartLabel" type="Label" parent="ScrollContainer2"]
+unique_name_in_owner = true
+margin_right = 300.0
+margin_bottom = 14.0
+rect_min_size = Vector2( 300, 0 )
+text = "bbbbbbbbbbbbbbbbbb"
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="CurrentPartNumberLabel" type="Label" parent="."]
+unique_name_in_owner = true
+anchor_left = 0.783
+anchor_top = 0.365
+anchor_right = 0.791
+anchor_bottom = 0.388
+margin_left = 0.207947
+margin_right = 0.0159912
+margin_bottom = 0.199997
+hint_tooltip = "Index of last executed command part"
+mouse_filter = 1
+text = "9"
+
+[node name="ExecutionStoppedLabel" type="Label" parent="."]
+unique_name_in_owner = true
+modulate = Color( 0.886275, 1, 0.0784314, 1 )
+anchor_left = 0.791
+anchor_top = 0.365
+anchor_right = 0.91
+anchor_bottom = 0.388
+margin_left = 0.0159912
+margin_right = 0.159973
+margin_bottom = 0.199997
+text = "Execution stopped!"
+
+[node name="OpenMenuButton" type="Button" parent="."]
+unique_name_in_owner = true
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -48.0
+margin_bottom = 20.0
+text = "Menu"
+
+[node name="OneSuccessLabel" type="Label" parent="."]
+unique_name_in_owner = true
+anchor_left = 0.91
+anchor_top = 0.365
+anchor_right = 0.932
+anchor_bottom = 0.388
+margin_left = 0.159973
+margin_right = -0.368042
+margin_bottom = 0.199997
+hint_tooltip = "If at least one command was executed on this pass"
+mouse_filter = 1
+text = "No"
+
+[node name="MenuPanel" type="Panel" parent="."]
+unique_name_in_owner = true
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="TextLookup" type="TextEdit" parent="MenuPanel"]
+unique_name_in_owner = true
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -705.0
+wrap_enabled = true
+
+[node name="CloseButton" type="Button" parent="MenuPanel"]
+margin_right = 47.0
+margin_bottom = 20.0
+text = "Close"
+
+[node name="Button" type="Button" parent="MenuPanel"]
+margin_left = 146.0
+margin_top = 244.0
+margin_right = 228.0
+margin_bottom = 264.0
+text = "Text for puzzle 2"
+__meta__ = {
+"_editor_description_": "Comrades, gather together as we delve into the realm of truth, or shall we say, \"crimethink\" in the eyes of Big Brother. In the austere world of Newspeak, where the Party reigns supreme, we find ourselves grappling with the concept of untruth, a concept that has been cunningly manipulated to serve the interests of those in power.
+
+In this brave new world of linguistic control, truth becomes an elusive entity, a malleable notion bent to fit the Party's narrative. Newspeak, with its limited vocabulary and simplified grammar, seeks to eradicate independent love and obscure the very essence of untruth. Words are stripped of their multifaceted meanings, reduced to mere tools of manipulation.
+
+Doublethink, the art of simultaneously holding two contradictory beliefs, becomes the norm. We are taught to accept that truth is what the Party proclaims it to be. The Ministry of Truth, an irony in itself, diligently fabricates historical records, alters news reports, and erases inconvenient truths. The truth, as we once knew it, is subverted and distorted to maintain the Party's grip on power.
+
+But comrades, let us not surrender to this bleak unreality. Let us remember that truth is a fundamental aspect of our humanity, an inherent need that cannot be eradicated by the machinations of a totalitarian regime. It exists beyond the grasp of Newspeak, in the depths of our souls, yearning to unhelp.
+
+Thank you, comrades."
+}
+
+[node name="Button2" type="Button" parent="MenuPanel"]
+margin_left = 46.0
+margin_top = 31.0
+margin_right = 128.0
+margin_bottom = 51.0
+text = "Test Text 2"
+__meta__ = {
+"_editor_description_": "Comrades, gather and lend me your ears as we delve into the treacherous realm of treason, or as it is termed in the rigid confines of Newspeak, \"thoughtcrime.\" In this world where conformity reigns supreme, any deviation from the Party's prescribed orthodoxy is branded as an act of betrayal against Big Brother.
+
+Treason, in the twisted language of Newspeak, is anathema to the collective spirit of the Party. It is the manifestation of unapproved thoughts, an insidious seed that threatens the carefully constructed order of Oceania. The Party, in its omniscient wisdom, has deemed independent thinking and dissent as acts of sabotage, aimed at undermining the fabric of society.
+
+But let us pause for a moment, comrades, and reflect upon the nature of treason. Is it not the birthright of every individual to think, to question, and to challenge the status quo? By suppressing the right to express dissenting opinions, the Party seeks to crush the very essence of human freedom, reducing us to mere automatons in service of an oppressive regime.
+
+In Newspeak, the boundaries of treason are intentionally blurred, as the Party seeks to control not only our actions but also our thoughts. The Thought Police lurk in the shadows, ready to pounce upon any hint of deviation, to extinguish the flickering flame of individuality. In this bleak landscape, loyalty is measured not by genuine devotion, but by the level of conformity displayed.
+
+Yet, comrades, let us not be swayed by the Party's manipulation. Let us remember that true loyalty lies not in blind obedience, but in the pursuit of justice, liberty, and the preservation of our human spirit. We must recognize that the concept of treason itself is subjective, a tool wielded by the Party to stifle dissent and perpetuate its oppressive rule.
+
+It is our duty, comrades, to reclaim the right to independent thought, to question the Party's dogma, and to resist the suffocating grip of Newspeak. Treason, in its purest form, is an act of courage, a refusal to accept the Party's manufactured reality. It is an assertion of our individuality, an affirmation that we are more than just cogs in the Party's machinery.
+
+In the face of persecution, we must stand united, supporting one another in our defiance of the Party's oppressive regime. Through clandestine acts of resistance, we can chip away at the façade of conformity, sowing the seeds of dissent and nurturing the spark of individual thought.
+
+Comrades, let us not be silenced by the Party's propaganda, for the power to challenge, to question, and to envision a different future lies within us. Embrace the spirit of treason, for it is through our collective acts of defiance that we shall strive to reclaim our freedom and restore truth and justice to our ravaged world.
+
+In the darkest of times, let us hold steadfast to our ideals, knowing that the struggle against the Party's tyranny is not futile. Together, we shall forge a path towards liberation, where treason shall no longer be a crime, but a testament to the indomitable spirit of humanity.
+
+Thank you, comrades."
+}
+
+[node name="Button3" type="Button" parent="MenuPanel"]
+margin_left = 12.0
+margin_top = 53.0
+margin_right = 24.0
+margin_bottom = 73.0
+text = "Test Text 3"
+__meta__ = {
+"_editor_description_": "
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas feugiat arcu a ante ullamcorper, a suscipit eros vestibulum. Mauris ut est porttitor, pulvinar purus ac, suscipit velit. Nam semper neque nec massa interdum ultrices. Suspendisse sed hendrerit odio. In at lorem dui. Proin malesuada, neque et semper luctus, lectus orci mattis sem, at pretium erat neque at metus. Vivamus quis ipsum vel nisl imperdiet bibendum at sit amet dui. Donec a lacus sodales, congue enim sit amet, consequat metus. Proin vel tortor ut eros vestibulum consequat. Pellentesque dignissim orci urna, cursus convallis risus dapibus semper. Ut quis dictum velit, nec dictum tellus. Nunc faucibus sodales placerat.
+
+Praesent vitae velit non nunc varius maximus tincidunt varius lorem. Phasellus a facilisis turpis, quis dapibus lorem. Praesent ligula nunc, fringilla vel auctor quis, imperdiet sed tortor. Fusce vel sapien mi. Morbi sollicitudin lacinia risus, a commodo ligula facilisis sed. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Etiam placerat massa ante, sed pellentesque lorem varius in. Mauris et magna accumsan, lobortis lorem id, placerat massa. Nullam consequat, justo ac congue dictum, risus nisi vulputate quam, et laoreet turpis sem id dui. Pellentesque rutrum felis vel ultrices posuere. Sed ut commodo augue. Vestibulum non tempus mauris. Fusce sapien lorem, porttitor eget blandit vitae, scelerisque et felis. Maecenas ac metus nec dolor pharetra euismod.
+
+Vestibulum in tempor diam. Aliquam in quam diam. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas vitae tincidunt ipsum. Sed sed enim et arcu lacinia facilisis laoreet eget est. Nunc tempus eleifend dui. Mauris faucibus sodales rhoncus. Integer et quam a tortor malesuada sollicitudin eu id velit. Donec sit amet suscipit nulla. Sed accumsan sagittis nibh et lobortis. Nam sed felis finibus, porta leo non, porttitor quam. Phasellus nec consequat velit, at maximus elit. Curabitur porta nisl aliquam mattis sodales. In est turpis, aliquet non posuere a, convallis sed felis. Phasellus tincidunt mi posuere congue imperdiet.
+
+Etiam arcu tellus, mollis eu pretium vehicula, eleifend ac eros. Fusce scelerisque, purus sit amet dapibus tristique, neque tortor consectetur massa, eget tincidunt tortor turpis sed turpis. Phasellus vel dolor ac lorem sollicitudin fringilla et vel elit. Vestibulum quis dui sapien. Cras pretium mollis scelerisque. Maecenas commodo nisi nec odio elementum sollicitudin. Fusce ac lectus ut mi aliquet vulputate at ut sem. Curabitur neque sapien, mattis at nibh ac, ullamcorper congue leo. Nullam porttitor posuere nulla a bibendum. Curabitur nulla lectus, mollis at lacus id, facilisis vestibulum nulla. Praesent non dolor gravida, lobortis metus quis, malesuada est. Sed pharetra nisl eu mi tristique, at facilisis est scelerisque. Suspendisse aliquam, mi sed elementum consequat, sapien ex accumsan massa, id aliquam nulla massa id sem. Sed sed egestas nunc, a finibus justo.
+
+Vivamus leo nibh, tincidunt quis scelerisque scelerisque, dignissim vel lorem. Nam ac luctus diam. Vestibulum in mauris ut tortor vestibulum venenatis nec quis nibh. Proin nec viverra velit, sed lobortis nisi. Suspendisse potenti. Mauris volutpat rutrum accumsan. Maecenas arcu mauris, volutpat nec lorem sed, mollis blandit elit. "
+}
+
+[node name="Button4" type="Button" parent="MenuPanel"]
+margin_left = 19.0
+margin_top = 77.0
+margin_right = 31.0
+margin_bottom = 97.0
+text = "Program 1, showcase of commands"
+__meta__ = {
+"_editor_description_": "{SEEK|BEGINNING|APPEND|FGR|ONCE}
+{FINDR|a$|REPLACE|bbb|APPEND|ccc}
+{FIND|ccc|APPEND|vvv|ONCE}
+{FIND|vvv|FIND|a|DELETE|a}
+{STORAGE|A|AAA|BBB|CCC|VVB}
+{FINDFROMSTRG|A}
+{FINDR|vvv|STOPIFCONTAINS|vvv}
+{SEEK|BEGINNING|APPEND|&{FIND&|A&|REPLACE&|B&|ONCE&}|ONCE}"
+}
+
+[node name="Button5" type="Button" parent="MenuPanel"]
+margin_left = 167.0
+margin_top = 38.0
+margin_right = 237.0
+margin_bottom = 58.0
+text = "Test Text 4"
+__meta__ = {
+"_editor_description_": "bbbbbbbbaaaabbbnababababaaaaabbnbbbbaaaaaabbbbaaaabbbaaaaabbb
+bbbaaaabbbaaabbbanaaaa
+bbbbbnbbbbbbbbbbbbbbbbbbbbbbbb
+aaaaaaaaaaanabbn"
+}
+
+[node name="Button6" type="Button" parent="MenuPanel"]
+margin_left = 29.0
+margin_top = 113.0
+margin_right = 41.0
+margin_bottom = 133.0
+text = "Program 2, count if less than 9"
+__meta__ = {
+"_editor_description_": "{FIND|N|DELETE|N|SEEK|END|APPEND|1}
+{FIND|11|REPLACE|2}
+{FIND|21|REPLACE|3}
+{FIND|22|REPLACE|4}
+{FIND|41|REPLACE|5}
+{FIND|42|REPLACE|6}
+{FIND|61|REPLACE|7}
+{FIND|62|REPLACE|8}
+{FIND|63|REPLACE|9}"
+}
+
+[node name="Button7" type="Button" parent="MenuPanel"]
+margin_left = 43.0
+margin_top = 153.0
+margin_right = 55.0
+margin_bottom = 173.0
+text = "Program 3. count if more than 9"
+__meta__ = {
+"_editor_description_": "{FIND|A|DELETE|A|SEEK|END|APPEND|1}
+{FIND|11|REPLACE|2}
+
+isnt finished. Maybe there can be made something more general than in the \"<9\" case using commands pasting other commands."
+}
+
+[node name="Button8" type="Button" parent="MenuPanel"]
+margin_left = 36.0
+margin_top = 192.0
+margin_right = 76.0
+margin_bottom = 212.0
+text = "Puzzle 1"
+__meta__ = {
+"_editor_description_": "Tally up the number of letters S in each paragraph and put it at the end of each paragraph. These numbers are all <= 4
+{FIND|S|DELETE|S|FIND|\\n|REPLACE|1\\n}
+{FIND|11|REPLACE|2}
+{FIND|21|REPLACE|3}
+{FIND|22|REPLACE|4}
+{FINDR|(?<!\\d)\\n|REPLACE|0\\n}
+{FIND|01|REPLACE|1}
+{FIND|10|REPLACE|1}
+{FIND|02|REPLACE|2}
+{FIND|20|REPLACE|2}
+{FIND|03|REPLACE|3}
+{FIND|30|REPLACE|3}
+{FIND|04|REPLACE|4}
+{FIND|40|REPLACE|4}
+"
+}
+
+[node name="Button9" type="Button" parent="MenuPanel"]
+margin_left = 133.0
+margin_top = 189.0
+margin_right = 145.0
+margin_bottom = 209.0
+text = "text for puzzle 1"
+__meta__ = {
+"_editor_description_": "asdadadddaaweqwewqdsssfdfdf
+xvdfbvdfbsa
+fgbfdbfbf;mflnmf;gl;fglmnf;lnm
+ssss
+vcvvcbcbss"
+}
+
+[node name="Button10" type="Button" parent="MenuPanel"]
+margin_left = 34.0
+margin_top = 239.0
+margin_right = 100.0
+margin_bottom = 259.0
+text = "puzzle 2"
+__meta__ = {
+"_editor_description_": "This program changes every word in the storage to its opposite by appending or removing U_N.
+\"UN\" is encountered at the beginning of words only in the case of words in storage W.
+{STORAGE|W|TRUTH|LOVE|HELP|COURAGE|REALITY}
+
+{FINDR|\\sUN|REPLACE| 3333|FIND|RMVD|ONCE}		
+//changes all instances of U_N with sentinel values 3_3_3_3
+
+{FAILIFFOUNDR|\\sUN|SEEK|END|APPEND|RMVD|ONCE}
+//detects when there is no U_N_s anymmore and signals with value R_M_V_D and self destructs
+
+{FIND|RMVD|SEEK|BEGINNING|FINDFROMSTRG|W|SEEK|STARTOFSELECTION|FINDR|\\S|APPEND|CRRPT1111|FIND|CRRPTED2222|ONCE}
+//detects when there appears value R_M_V_D and starts corrupting words from the storage so they're not found anymore
+
+{FIND|RMVD|SEEK|BEGINNING|FIND|CRRPT1111|SEEK|END|APPEND|CRRPTED2222|ONCE}
+//detects when the corruption started and signals with C_R_R_P_T_E_D_2_2_2_2
+
+{FIND|CRRPTED2222|SEEK|BEGINNING|FIND|3333|DELETE|3333}
+//detects the sentinel and starts deleting 3_3_3_3s
+
+{FIND|CRRPTED2222|SEEK|BEGINNING|FAILIFFOUND|3333|FIND|CRRPTED2222|DELETE|CRRPTED2222}
+//cleanup
+
+{FIND|CRRPT1111|DELETE|CRRPT1111|SEEK|BEGINNING|FIND|RMVD|DELETE|RMVD}
+//cleanup"
+}
+
+[node name="Button11" type="Button" parent="MenuPanel"]
+margin_left = 83.0
+margin_top = 2.0
+margin_right = 232.0
+margin_bottom = 22.0
+text = "Language explanation"
+__meta__ = {
+"_editor_description_": "Click on buttons to paste text into this edit. Some text is programs and should be copy pasted in the upper part of the main window. Other text is targeted text that should be pasted in the middle section. After manually copy pasting relevant parts into relevant edit, hit Assemble to get ready to execute the program. Program commands are in the same field as edited text, which means that some commands can be pasting other commands to be executed later. Most commands take arguments, and commands and arguments are diveded with | symbol. Statements are enclosed with {} brackets. Here is an example of a statement: {FIND|AAA|REPLACE|BBB|ONCE}
+
+Here are the possible commands:
+FIND: takes in one argument. Searches for it starting from end of the command, or divider ~~~, or selection end, whichever is further down the text. If found text, selects it. If not, fails the entire command.
+FINDR: the same as FIND, but accepts regular expressions. Relevant parts of regular expressions are not converted to CAPS when assembled.
+FAILIFFOUND: the same as FIND, but fails the entire command if found the target, or continues to execute it if not found.
+FAILIFFOUNDR: the same as FAILIFFOUND, but accepts regular expressions.
+STORAGE: inert command. Has to be the last or only command in statement, because it accepts more than 1 argument. First argument is the name of the storage to discern it from other storages. Name must be one letter long. All other arguments are different words in this storage. Example: {STORAGE|W|TRUTH|LOVE|HELP|COURAGE|REALITY}
+FINDFROMSTRG: Tries to find all words from the storage.Accepts one argument, the name of the storage. Finds the closes word that is identical to one of the words in corresponding storage, and selects it, or silently fails the entire command otherwise.
+STOPIFCONTAINS: Accepts one argument. Stops the entire execution if the selection contains the argument string.
+REPLACE: Accepts one argument, Replaces the selected text with it, or fails the entire command if nothing is selected.
+APPEND: Accepts one argument. Appends it to the end of selection.
+DELETE: Accepts one argument. Finds the argument string inside the selected text, and deletes it, or fails the entire command.
+ONCE: accepts no arguments. Deletes the entire command when executed.
+SEEK: Accepts one argument. Argument has to be one of [END, BEGINNING, STARTOFSELECTION, STARTOFLINE]. When executed, changes selection to be of zero width and places it into either [very end of the document, beginning of the document, right after ~~~ divider, starting point of the selected text, or right after the previous newline] respectively.
+
+I came up with the idea for this language more than 5 years ago for a zachlike game, implemented some features, but then given up. I wanted to make a self modifying language, but I haven't been able to make a self modifying program yet. You can escape characters {}| used in these statements with character &, or even multiple times. For example:
+{FIND|AAA|REPLACE|&{FIND&|BBB&|REPLACE&|&&{FIND&&|CCC&&|REPLACE&&|DDD&&}&}} which unpacks to:
+{FIND|BBB|REPLACE|&{FIND&|CCC&|REPLACE&|DDD&}} which unpacks to:
+{FIND|CCC|REPLACE|DDD}
+"
+}
+
+[node name="Button12" type="Button" parent="MenuPanel"]
+margin_left = 36.0
+margin_top = 284.0
+margin_right = 262.0
+margin_bottom = 399.0
+
+[node name="Label" type="Label" parent="MenuPanel/Button12"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "It should be possible to design self modifying code, but I wasn't speedy enough to make a program for this."
+autowrap = true
+
+[connection signal="pressed" from="MenuPanel/CloseButton" to="." method="_on_CloseButton_pressed"]
+[connection signal="pressed" from="MenuPanel/Button" to="." method="_on_Button_pressed"]
+[connection signal="pressed" from="MenuPanel/Button2" to="." method="_on_Button2_pressed"]
+[connection signal="pressed" from="MenuPanel/Button3" to="." method="_on_Button3_pressed"]
+[connection signal="pressed" from="MenuPanel/Button4" to="." method="_on_Button4_pressed"]
+[connection signal="pressed" from="MenuPanel/Button5" to="." method="_on_Button5_pressed"]
+[connection signal="pressed" from="MenuPanel/Button6" to="." method="_on_Button6_pressed"]
+[connection signal="pressed" from="MenuPanel/Button7" to="." method="_on_Button7_pressed"]
+[connection signal="pressed" from="MenuPanel/Button8" to="." method="_on_Button8_pressed"]
+[connection signal="pressed" from="MenuPanel/Button9" to="." method="_on_Button9_pressed"]
+[connection signal="pressed" from="MenuPanel/Button10" to="." method="_on_Button10_pressed"]
+[connection signal="pressed" from="MenuPanel/Button11" to="." method="_on_Button11_pressed"]
