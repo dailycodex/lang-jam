@@ -1,0 +1,9 @@
+C:\Users\Oleksij\Documents\Godot Projects\LangJam1984\.mono\temp\bin\ExportDebug\LangJam1984.dll
+C:\Users\Oleksij\Documents\Godot Projects\LangJam1984\.mono\temp\bin\ExportDebug\LangJam1984.pdb
+C:\Users\Oleksij\Documents\Godot Projects\LangJam1984\.mono\temp\obj\ExportDebug\LangJam1984.csproj.AssemblyReference.cache
+C:\Users\Oleksij\Documents\Godot Projects\LangJam1984\.mono\temp\obj\ExportDebug\LangJam1984.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Oleksij\Documents\Godot Projects\LangJam1984\.mono\temp\obj\ExportDebug\LangJam1984.AssemblyInfoInputs.cache
+C:\Users\Oleksij\Documents\Godot Projects\LangJam1984\.mono\temp\obj\ExportDebug\LangJam1984.AssemblyInfo.cs
+C:\Users\Oleksij\Documents\Godot Projects\LangJam1984\.mono\temp\obj\ExportDebug\LangJam1984.csproj.CoreCompileInputs.cache
+C:\Users\Oleksij\Documents\Godot Projects\LangJam1984\.mono\temp\obj\ExportDebug\LangJam1984.dll
+C:\Users\Oleksij\Documents\Godot Projects\LangJam1984\.mono\temp\obj\ExportDebug\LangJam1984.pdb
